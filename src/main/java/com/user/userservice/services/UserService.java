@@ -1,7 +1,7 @@
-package com.user.Userservice.services;
+package com.user.userservice.services;
 
 
-import com.user.Userservice.entities.User;
+import com.user.userservice.entities.User;
 
 import java.util.List;
 
