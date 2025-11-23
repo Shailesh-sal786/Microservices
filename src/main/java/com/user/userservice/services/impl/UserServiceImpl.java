@@ -1,5 +1,6 @@
 package com.user.userservice.services.impl;
 
+import com.user.userservice.entities.Hotel;
 import com.user.userservice.entities.Rating;
 import com.user.userservice.entities.User;
 import com.user.userservice.repositories.UserRepository;
@@ -49,14 +50,22 @@ public class UserServiceImpl implements UserService {
         User user= userRepository.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User with given id is not found on dserver "+userId));
        // fetch rating of above user using rating service
         //http://localhost:8083/ratings/users/1a04a9ca-7666-4426-aee2-16874dc2bc67
-        String url = "http://localhost:8083/ratings/users/"+userId;
-
-
-      ArrayList <Rating> ratings =  restTemplate.getForObject(url,ArrayList.class);
-
+        String rating_url = "http://localhost:8083/ratings/users/"+userId;
+        ArrayList <Rating> ratings =  restTemplate.getForObject(rating_url,ArrayList.class);
         log.info("{}",ratings);
-        log.info("printing fro log of sl4j");
+
+        for (Rating rating : ratings) {
+            Hotel hotel = getHotel(rating.getHotelId());
+            rating.setHotel(hotel);
+        }
+
         user.setRatings(ratings);
         return user;
+    }
+
+    public Hotel getHotel(String hotelId) {
+        String hotel_url = "http://localhost:8082/hotels/" + hotelId;
+        Hotel hotel = restTemplate.getForObject(hotel_url, Hotel.class);
+        return hotel;
     }
 }
