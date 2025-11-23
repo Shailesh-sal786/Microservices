@@ -1,5 +1,6 @@
 package com.user.userservice.services.impl;
 
+import com.user.userservice.entities.Hotel;
 import com.user.userservice.entities.Rating;
 import com.user.userservice.entities.User;
 import com.user.userservice.repositories.UserRepository;
@@ -56,7 +57,21 @@ public class UserServiceImpl implements UserService {
 
         log.info("{}",ratings);
         log.info("printing fro log of sl4j");
+
+        for(Rating rating: ratings){
+            Hotel hotel = getHotel(rating.getHotelId());
+            rating.setHotel(hotel);
+        }
         user.setRatings(ratings);
         return user;
+    }
+
+    //Those which microservices are called from this microservice their data should be in this microservice in the form of class.
+
+    public Hotel getHotel(String hotelId){
+        String Hotel_url = "http://localhost:8082/hotels/"+hotelId;
+        Hotel hotel = restTemplate.getForObject(Hotel_url,Hotel.class);
+        return hotel;
+
     }
 }
