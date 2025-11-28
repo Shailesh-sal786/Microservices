@@ -2,6 +2,7 @@ package com.user.userservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.web.client.RestTemplate;
 
 //Changes in Eureka Client Setup
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 //You no longer need to annotate your main application class with @EnableEurekaClient. Simply adding the dependency and configuring Eureka in the application.properties or application.yml is sufficient for your application to register with the Eureka server.
 
 @SpringBootApplication
+@EnableFeignClients
 public class UserserviceApplication {
 
 
