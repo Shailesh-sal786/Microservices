@@ -2,8 +2,7 @@ package com.user.userservice.external.services;
 
 import com.user.userservice.entities.Rating;
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -11,6 +10,15 @@ import java.util.List;
 public interface RatingService {
     @GetMapping("/ratings/users/{userId}")
      List<Rating> getRating(@PathVariable("userId") String userId);
+
+    @PostMapping("/ratings")
+    public Rating createRating(Rating values);
+
+    @PutMapping("/ratings/{ratingId}")
+    public Rating updateRating(@PathVariable ("ratingId") String ratingId , Rating rating);
+
+    @DeleteMapping("/ratings/{ratingId}")
+    public void deleteRating(@PathVariable String ratingId);
 
 
 }
